@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,19 +10,24 @@
 
     <style>
         /* these styles will animate bootstrap alerts. */
-        .alert{
+        .alert {
             z-index: 99;
             top: 60px;
-            right:18px;
-            min-width:30%;
+            right: 18px;
+            min-width: 30%;
             position: fixed;
             animation: slide 0.5s forwards;
         }
+
         @keyframes slide {
-            100% { top: 30px; }
+            100% {
+                top: 30px;
+            }
         }
+
         @media screen and (max-width: 668px) {
-            .alert{ /* center the alert on small screens */
+            .alert {
+                /* center the alert on small screens */
                 left: 10px;
                 right: 10px;
             }
@@ -30,33 +36,42 @@
 
     <title>{{config('app.name')}}</title>
 </head>
-<body>
 
+<body>
+    <!-- user navbar -->
     @include('inc.navbar')
     <main class="container mt-4">
-        @yield('content')
+        <div class="container">
+            <div class="row justify-content-center">
+                <!-- include left__navbar -->
+                @if(Auth::check())
+                @include('inc.left__nav')
+                @endif
+                @yield('content')
+            </div>
+        </div>
     </main>
 
     <script src="{{asset('js/app.js')}}"></script>
 
     {{-- Success Alert --}}
     @if(session('status'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{session('status')}}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{session('status')}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     @endif
 
     {{-- Error Alert --}}
     @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{session('error')}}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{session('error')}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     @endif
 
     <script>
@@ -69,4 +84,5 @@
     </script>
 
 </body>
+
 </html>
