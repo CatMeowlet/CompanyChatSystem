@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
+
     <style>
         /* these styles will animate bootstrap alerts. */
         .alert {
@@ -38,51 +39,40 @@
 </head>
 
 <body>
-    <!-- user navbar -->
+    {{--  user navbar   --}}
     @include('inc.navbar')
     <main class="container mt-4">
         <div class="container">
-            <div class="row justify-content-center">
+            <div class="row ">
                 <!-- include left__navbar -->
                 @if(Auth::check())
                 @include('inc.left__nav')
                 @endif
+
                 @yield('content')
+
+                @if(Auth::check())
+                @include('inc.right__nav')
+                @endif
+
+
             </div>
         </div>
     </main>
 
     <script src="{{asset('js/app.js')}}"></script>
-
-    {{-- Success Alert --}}
-    @if(session('status'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{session('status')}}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    @endif
-
-    {{-- Error Alert --}}
-    @if(session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{session('error')}}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    @endif
-
-    <script>
-        //close the alert after 3 seconds.
-        $(document).ready(function(){
-	    setTimeout(function() {
-	        $(".alert").alert('close');
-	    }, 3000);
-    	});
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js">
     </script>
-
+    <script type="text/javascript">
+        // global app configuration object
+        var config = {
+            routes: "{{ route('user.search_autocomplete') }}"
+        };
+    </script>
+    <script src="{{ url('js/custom.js') }}"></script>
+    {{--  Custom Script  --}}
+    @yield('scripts')
 </body>
 
 </html>
